@@ -1,4 +1,10 @@
 /build/
+/scripts/checks/
+/scripts/high_stat/
+/scripts/macros/
+/scripts/plots
+/scripts/root_files/
+/scripts/steering_files/
 /scripts/
 /old/
 /doc/
