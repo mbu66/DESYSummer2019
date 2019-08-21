@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+  \begin{feynman}[scale=1] % using the vertex in brackets () allows fixing of vertex
+    \vertex[blob] (m) at (0, 0) {\contour{white}{}};
+    \vertex (a) at (-1,-1);
+    \vertex (b) at ( 1.25,-1) ;
+    \vertex (c) at (-1, 1);
+    \vertex (d) at ( 1.25, 1) ;
+    \vertex (q1) at ( 3,-1.5) {$q$};
+    \vertex (q2) at ( 3,-0.5) {$\bar{q}$};
+    \vertex (q3) at ( 3, 1.5) {$q$};
+    \vertex (q4) at ( 3, 0.5) {$\bar{q}$};
+    \vertex (i1) at (-2.5,-1) {$e^-$};
+    \vertex (o1) at ( 2.5,-2.25) {$\nu_e$};
+    \vertex (i2) at (-2.5, 1) {$e^+$};
+    \vertex (o2) at ( 2.5, 2.25) {$\bar{\nu_e}$};
+    \diagram* {
+      (i1) -- [fermion] (a) -- [fermion] (o1) ,
+      (i2) -- [anti fermion] (c) -- [anti fermion] (o2) ,
+      (a) -- [photon, edge label=$W^-$] (m),
+      (m) -- [photon, edge label=$W^+$] (c),
+      (b) -- [photon, edge label=$W^-/Z$, swap] (m),
+      (d) -- [photon, edge label=$W^+/Z$] (m),
+      (b) -- [fermion] (q1),
+      (b) -- [anti fermion] (q2),
+      (d) -- [fermion] (q3),
+      (d) -- [anti fermion] (q4),
+    };
+  \end{feynman}
+\end{tikzpicture}

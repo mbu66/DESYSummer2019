@@ -1,0 +1,340 @@
+% TODO Clean this up
+
+\documentclass[12pt,oneside,notitlepage,abstracton,a4paper]{article}
+
+
+% TODO: Find out what these are for
+\usepackage{epsfig,scrpage2}
+\usepackage{amsmath}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{arydshln}
+\usepackage{setspace} % For singlespace
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tablefootnote}
+
+\usepackage{amssymb}  % Equations
+\usepackage{xcolor}   % Colours
+\usepackage{listings} % Code listings
+\usepackage{cancel,xcolor}
+\newcommand{\Cancel}[2][black]{{\color{#1}\cancel{\color{black}#2}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO Put some order into this part
+
+% For Titlepage
+\renewcommand{\headfont}{\normalfont}
+  % \cfoot{\pagemark}
+  \date{\normalsize \today}
+\newcommand{\hwidthline}{
+  \noindent\makebox[\linewidth]{\rule{\linewidth}{0.4pt}}
+}
+%-------------------------------------------------------------------------------
+% For TODOS:
+\newenvironment{TODOlist}{%
+    \begin{list}{\textcolor{DESYorange}{!}\textcolor{DESYcyan}{$\bullet$}\textcolor{DESYorange}{!}}{\setlength{\itemsep}{0.5pt}}
+  }{%
+    \end{list}%
+}
+
+%-------------------------------------------------------------------------------
+% To avoid float-only pages change minimum content on page that is necessary
+% for page to become float-only
+\renewcommand{\floatpagefraction}{.7}
+
+%-------------------------------------------------------------------------------
+% For manipulating counters (e.g. figure counter in appendix)
+\usepackage{chngcntr}
+
+%-------------------------------------------------------------------------------
+% In appendix use the section letter as first numbering letter for everything
+\newcommand{\setappendixnumbering}{%
+  \renewcommand{\thesection}{\Alph{section}}
+  \renewcommand{\theequation}{\thesection.\arabic{equation}}
+  \renewcommand{\thefigure}{\thesection.\arabic{figure}}
+  \renewcommand{\thetable}{\thesection.\arabic{table}}
+  \counterwithin{equation}{section}
+  \counterwithin{figure}{section}
+  \counterwithin{table}{section}
+}
+
+%-------------------------------------------------------------------------------
+% Never break footnote onto multiple pages!
+\interfootnotelinepenalty=10000
+
+%-------------------------------------------------------------------------------
+% Prevent floats to appear below footnotes
+\usepackage[bottom]{footmisc}
+
+%-------------------------------------------------------------------------------
+% Remove section numbering
+% \makeatletter
+%   \renewcommand\@seccntformat[1]{}
+% \makeatother
+
+%-------------------------------------------------------------------------------
+% Add line numbering
+\iflinenumbers
+  \usepackage{lineno}
+  \linenumbers
+\fi
+
+%-------------------------------------------------------------------------------
+% For affiliations
+\usepackage[affil-it]{authblk}
+
+%-------------------------------------------------------------------------------
+% Title page layout (title, authors, affil)
+\usepackage{etoolbox} % Tool to modify things (not sure, also need to sort somewhere better...)
+\makeatletter % Change Title
+\patchcmd{\@maketitle}{\LARGE \@title}{\fontsize{16}{19.2}\selectfont\@title}{}{}
+\makeatother
+\renewcommand\Authfont{\fontsize{12}{14.4}\selectfont}  % Change author
+\renewcommand\Affilfont{\fontsize{9}{10.8}\itshape}     % Change affiliation
+
+%-------------------------------------------------------------------------------
+% Smaller side margins
+\usepackage{geometry}
+\geometry{
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Directory setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom paths
+\newcommand{\imagepath}{/Users/mbk/Documents/LATEX/SummerStudentReportTemplate-master/Plots/high_stat}
+\newcommand{\logopath}{../Logos}
+\newcommand{\feynmanpath}{./FeynmanDiagrams}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics, Figures, Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom colors
+\usepackage{xcolor}
+\definecolor{DESYcyan}{RGB}{0,166,235}
+\definecolor{DESYorange}{RGB}{242,142,0}
+\definecolor{DESYgray}{RGB}{119,119,119}
+\definecolor{bjetpurple}{RGB}{117,112,179}
+
+%-------------------------------------------------------------------------------
+% Feynman and other diagrams
+\usepackage[compat=1.1.0]{tikz-feynman}
+\usepackage{contour}
+\usetikzlibrary{arrows,shapes,positioning}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{shadows}
+
+%-------------------------------------------------------------------------------
+% Pretty captions and subcaptions
+\usepackage[margin=8mm,font=small,labelfont=bf,format=plain]{caption}
+\usepackage[margin=8mm,font=small,labelfont=bf,format=plain]{subcaption}
+
+%-------------------------------------------------------------------------------
+% Table top captions and alignment
+\captionsetup[table]{position=top}
+\captionsetup[subtable]{position=top}
+
+%-------------------------------------------------------------------------------
+% Nice features for tables
+\usepackage{multirow} % Cells that span multiple rows
+\newcommand{\vcell}[3]{\parbox[t]{#1}{\multirow{#2}{*}{\rotatebox[origin=c]{90}{#3}}}}
+
+%-------------------------------------------------------------------------------
+% Allows fixing float positions with the [H] option
+% \usepackage{float}
+
+%-------------------------------------------------------------------------------
+% Shortcut for referencing a subfigure within a figure caption
+\newcommand{\subfigref}[1]{({\protect\subref{#1}})}
+
+%-------------------------------------------------------------------------------
+% Force floats to appear in its section
+% \usepackage[section]{placeins}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Text manipulation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Hyperlinks in pdf
+\usepackage[
+  bookmarks,                   %% PDF-Lesezeichen
+  bookmarksopenlevel=1,        %% ...um eine Ebene
+  bookmarksnumbered=true,      %% Lesezeichen numerieren
+  pdfstartpage={1},            %% mit welcher Seite das PDF öffnen
+  pdfstartview={FitH},         %% Zoom auf Seitenbreite
+  pdfkeywords={},              %% Stichwörter fürs PDF, kommagetrennt
+  pdfsubject={},               %% Themenbeschreibung kurz
+  pdfcreator={LaTeX with KOMA-Script and hyperref package},
+  hyperfootnotes=true,         %% Links auf Fußnoten
+  linkbordercolor={0 1 1},     %% Rahmenfarbe interne Links
+  menubordercolor={0 1 1},     %% Rahmenfarbe Literaturlinks
+  urlbordercolor={1 0 0}       %% Rahmenfarbe externe Links
+]{hyperref}                    %% Hyperlinks und Lesezeichen in PDF
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Additions for math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Symbols with text above/below
+\newcommand{\textover}[2]{\stackrel{\text{#2}}{#1}}
+\newcommand{\eqtext}[1]{\textover{=}{#1}} %Equal sign with text over it
+
+%-------------------------------------------------------------------------------
+% Dirac notation
+\usepackage{slashed}
+
+%-------------------------------------------------------------------------------
+% New fancy command for column vector with any number of rows
+% (Taken from https://tex.stackexchange.com/questions/2705/typesetting-column-vector)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For code snipplet inputs
+\usepackage{lmodern}
+\usepackage{listings}
+\lstset{
+  language=[90]Fortran,
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  keywordstyle=\color{red},
+  commentstyle=\color{green},
+  morecomment=[l]{!\ }% Comment only with space after !
+  breaklines=true,                 % sets automatic line breaking
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  % numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  % numbersep=5pt,                   % how far the line-numbers are from the code
+  % numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  % stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  % tabsize=2,	                   % sets default tabsize to 2 spaces
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[english]{babel}% Recommended
+\usepackage{csquotes}% Recommended
+\usepackage[style=numeric-comp,sorting=none]{biblatex}
+\addbibresource{library.bib}% Syntax for version >= 1.2
+
+\newcommand{\customprintbibliography}{%
+  % \begingroup
+  \printbibliography[heading=none]
+  % \endgroup
+  \newpage
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Symbol shortcuts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amssymb}
+
+%-------------------------------------------------------------------------------
+% Math/physics symbols
+\newcommand{\Lagr}{\mathcal{L}}
+\newcommand{\mbar}{\bar{m}}
+\newcommand{\oper}{\mathcal{O}}
+\newcommand{\DEG}{^{\circ}}
+
+%-------------------------------------------------------------------------------
+% Line stuff
+\newcommand{\flend}{&&\\} % End of a flalign newenvironment line
+
+%-------------------------------------------------------------------------------
+% Particles
+\newcommand{\eP}{e^{+}}
+\newcommand{\eM}{e^{-}}
+\newcommand{\lP}{l^{+}}
+\newcommand{\lM}{l^{-}}
+
+\newcommand{\fbar}{\bar{f}}
+
+\newcommand{\eL}{\eM_{L}}
+\newcommand{\eR}{\eM_{R}}
+\newcommand{\pL}{\eP_{L}}
+\newcommand{\pR}{\eP_{R}}
+
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_{\mu}}
+\newcommand{\nutau}{\nu_{\tau}}
+\newcommand{\nul}{\nu_l}
+
+\newcommand{\nubar}{\bar{\nu}}
+\newcommand{\nuebar}{\bar{\nue}}
+\newcommand{\nulbar}{\bar{\nul}}
+
+\newcommand{\qbar}{\bar{q}}
+\newcommand{\qu}{q_{u}}
+\newcommand{\qd}{q_{d}}
+\newcommand{\qubar}{\bar{q}_{u}}
+\newcommand{\qdbar}{\bar{q}_{d}}
+
+\newcommand{\tbar}{\bar{t}}
+
+\newcommand{\vis}{\text{vis}}
+\newcommand{\inv}{\text{inv}}
+
+\newcommand{\WP}{W^{+}}
+\newcommand{\WM}{W^{-}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%TODO TO ORDER:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO What is this??
+\setcounter{secnumdepth}{3}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0ex plus0.5ex minus0ex}
+\pagestyle{scrheadings}

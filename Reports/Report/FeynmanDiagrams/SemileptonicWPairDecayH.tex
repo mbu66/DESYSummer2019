@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+  \begin{feynman}[scale=1] % using the vertex in brackets () allows fixing of vertex
+    \vertex (m) at (-1, 0);
+    \vertex (n) at (0.5, 0);
+    \vertex (a) at (-1.5,-1);s
+    \vertex (b) at ( 1.75,-1) ;
+    \vertex (c) at (-1.5, 1);
+    \vertex (d) at ( 1.75, 1) ;
+    \vertex (u) at ( 3.5,-1.5) {$\mu^-$};
+    \vertex (v) at ( 3.5,-0.5) {$\bar{\nu}_\mu$};
+    \vertex (q1) at ( 3.5, 1.5) {$q$};
+    \vertex (q2) at ( 3.5, 0.5) {$\bar{q'}$};
+    \vertex (i1) at (-3,-1) {$e^-$};
+    \vertex (i2) at (-3, 1) {$e^+$};
+    \diagram* {
+      (i1) -- [fermion] (m) ,
+      (i2) -- [anti fermion] (m) ,
+      (m) -- [scalar, edge label=$H$] (n),
+      (b) -- [photon, edge label=$W^-$, swap] (n),
+      (d) -- [photon, edge label=$W^+$] (n),
+      (b) -- [fermion] (u),
+      (b) -- [anti fermion] (v),
+      (d) -- [fermion] (q1),
+      (d) -- [anti fermion] (q2),
+    };
+  \end{feynman}
+\end{tikzpicture}
