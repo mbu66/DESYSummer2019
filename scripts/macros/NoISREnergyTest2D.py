@@ -5,8 +5,8 @@ f = TFile("../high_stat/root/extraction_long.root")
 t = f.Get("ObservablesTree")
 nEntries = t.GetEntries()
 
-hist = TH1F("hist", "; E_{mc}; E_{reco}", 800, -2, 5)
-hist1 = TH1F("hist1", "; E_{mc}; E_{reco}", 800, -2, 5)
+hist = TH2F("hist", "; E_{mc}; E_{reco}", 400, 0, 200, 400, -200, 200)
+hist1 = TH2F("hist1", "; E_{mc}; E_{reco}", 400, 0, 200, 400, -200, 200)
 
 c1 = TCanvas("c1", "Test Stacked Histograms", 1000, 1000)
 
@@ -33,15 +33,12 @@ def applycut():
 
 for i in range(0,nEntries):
   t.GetEntry(i)
-  if t.m_mcPhotonEnergy != 0 and t.m_recoPhotonEnergy !=0:
-      hist1.Fill( (t.m_recoPhotonEnergy - t.m_mcPhotonEnergy) / t.m_mcPhotonEnergy, applycut() )
-#  if t.m_mcPhotonEnergy != 0:
-#      hist1.Fill( (t.m_mcPhotonEnergy - t.m_photonenergyA) / t.m_mcPhotonEnergy, applycut() and t.m_recoPhotonEnergyChosen2 == 1 and t.m_recoPhotonEnergyChosen == 3)
-#      hist1.Fill( (t.m_mcPhotonEnergy - t.m_photonenergyB) / t.m_mcPhotonEnergy, applycut() and t.m_recoPhotonEnergyChosen2 == 2 and t.m_recoPhotonEnergyChosen == 3)
+  hist1.Fill(t.m_mcPhotonEnergy, t.m_photonenergyA, applycut() and t.m_recoPhotonEnergyChosen2 == 1 and t.m_recoPhotonEnergyChosen == 3)
+  hist1.Fill(t.m_mcPhotonEnergy, t.m_photonenergyB, applycut() and t.m_recoPhotonEnergyChosen2 == 2 and t.m_recoPhotonEnergyChosen == 3)
 
-hist1.Draw("hist")
+hist1.Draw("colz")
 
-legend = TLegend(0.67, 0.7, 0.89, 0.91)
+legend = TLegend(0.47, 0.2, 0.69, 0.41)
 legend.SetHeader("e_{L}^{-} e_{R}^{+}", "C")
 legend.Draw()
 
