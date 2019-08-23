@@ -1,82 +1,85 @@
 #include "MyFirstObservableProcessor.h"
 
 
-MyFirstObservableProcessor aMyFirstObservableProcessor ;
+MyFirstObservableProcessor aMyFirstObservableProcessor;
 
 //-------------------------------------------------------------------------------------------------
 
-MyFirstObservableProcessor::MyFirstObservableProcessor() : Processor("MyFirstObservableProcessor") {
-
+MyFirstObservableProcessor::MyFirstObservableProcessor() : Processor("MyFirstObservableProcessor")
+{
     // modify processor description
-    _description = "MyFirstObservableProcessor creates a root branch containing energy information" ;
+    _description = "MyFirstObservableProcessor creates a root branch containing energy information";
 
 
     // register steering parameters: name, description, class-variable, default value
+
 /**
-    registerInputCollection(
-            LCIO::RECONSTRUCTEDPARTICLE,         // The collection type. Checkout the LCIO documentation for other types
-            "PfoCollection",                     // The parameter name to read from steering file
-            "The Pandora PFO collection name",   // A parameter description. Please fill this correctly
-            m_pfoCollectionName_temp,            // Your variable to store the result after steering file parsing
-            std::string("PandoraPFOs") );        // That's the default value, in case
-**/
+ *  registerInputCollection(
+ *          LCIO::RECONSTRUCTEDPARTICLE,         // The collection type. Checkout the LCIO documentation for other types
+ *          "PfoCollection",                     // The parameter name to read from steering file
+ *          "The Pandora PFO collection name",   // A parameter description. Please fill this correctly
+ *          m_pfoCollectionName_temp,            // Your variable to store the result after steering file parsing
+ *          std::string("PandoraPFOs") );        // That's the default value, in case
+ **/
 
-    registerInputCollection( LCIO::MCPARTICLE,
-            "MCParticleCollection",
-            "Name of the MC particle collection",
-            m_mcCollectionName,
-            std::string("MCParticle") );
-
-    registerInputCollection(
-            LCIO::RECONSTRUCTEDPARTICLE,
-            "PfoCollectionOverlayRemoved",
-            "Name of Reconstructed particles without overlay",
-            m_pfoCollectionName,
-            std::string("PFOsOverlayRemoved") );
+    registerInputCollection(LCIO::MCPARTICLE,
+                            "MCParticleCollection",
+                            "Name of the MC particle collection",
+                            m_mcCollectionName,
+                            std::string("MCParticle"));
 
     registerInputCollection(
-            LCIO::RECONSTRUCTEDPARTICLE,
-            "InputIsolepsCollection",
-            "Name of the isolated lepton collection",
-            m_isolatedLeptonsCollectionName,
-            std::string("Isoleps") );
+        LCIO::RECONSTRUCTEDPARTICLE,
+        "PfoCollectionOverlayRemoved",
+        "Name of Reconstructed particles without overlay",
+        m_pfoCollectionName,
+        std::string("PFOsOverlayRemoved"));
 
     registerInputCollection(
-            LCIO::RECONSTRUCTEDPARTICLE,
-            "InputJetsCollection",
-            "Name of jets collection",
-            m_jetsCollectionName,
-            std::string("FastJets") );
+        LCIO::RECONSTRUCTEDPARTICLE,
+        "InputIsolepsCollection",
+        "Name of the isolated lepton collection",
+        m_isolatedLeptonsCollectionName,
+        std::string("Isoleps"));
+
+    registerInputCollection(
+        LCIO::RECONSTRUCTEDPARTICLE,
+        "InputJetsCollection",
+        "Name of jets collection",
+        m_jetsCollectionName,
+        std::string("FastJets"));
 
     registerProcessorParameter("OutputRootFileName",
-            "Path of output rootfile",
-            m_rootfilename,
-            std::string("test.root"));
+                               "Path of output rootfile",
+                               m_rootfilename,
+                               std::string("test.root"));
 }
 
 //-------------------------------------------------------------------------------------------------
-void MyFirstObservableProcessor::init() {
-
+void MyFirstObservableProcessor::init()
+{
     m_rootfile = new TFile(m_rootfilename.c_str(), "recreate");
-    m_testtree  = new TTree("ObservablesTree", "ObservablesTree");
+    m_testtree = new TTree("ObservablesTree", "ObservablesTree");
 
     this->setTTreeBranches();
 }
 
 //-------------------------------------------------------------------------------------------------
-void MyFirstObservableProcessor::processRunHeader( EVENT::LCRunHeader* run) {
+void MyFirstObservableProcessor::processRunHeader(EVENT::LCRunHeader *run)
+{
     streamlog_out(MESSAGE) << "Starting run no " << run->getRunNumber() << std::endl;
 }
 
 //-------------------------------------------------------------------------------------------------
 
-void MyFirstObservableProcessor::processEvent( EVENT::LCEvent * evt ) {
+void MyFirstObservableProcessor::processEvent(EVENT::LCEvent *evt)
+{
     //this->readInputInfo(); // Read info about process
 
     m_event = evt;
 
     //streamlog_out(DEBUG) <<"Processing event no " << m_event->getEventNumber() << " - run " << m_event->getEventNumber() << std::endl;
-    m_com_E = m_event->getParameters().getFloatVal( "Energy" );
+    m_com_E = m_event->getParameters().getFloatVal("Energy");
 
     this->analyseMCParticles();
     this->analyseReconstructed();
@@ -89,8 +92,8 @@ void MyFirstObservableProcessor::processEvent( EVENT::LCEvent * evt ) {
 
 //-------------------------------------------------------------------------------------------------
 
-void MyFirstObservableProcessor::end(){
-
+void MyFirstObservableProcessor::end()
+{
     std::cout << "MyFirstObservableProcessor: end()" << this->name() << " Rootfile: "
               << m_rootfilename.c_str() << std::endl << std::endl;
 
@@ -110,5 +113,4 @@ void MyFirstObservableProcessor::end(){
 
     delete m_rootfile;
     streamlog_out(DEBUG) << "In end: Done." << std::endl << std::endl;
-
 }
