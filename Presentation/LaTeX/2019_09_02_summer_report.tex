@@ -1,0 +1,414 @@
+%For DESY PC
+\input{./Header.tex}
+
+\title[Angular efficiencies of semileptonic W pair decay at the ILC]{Angular efficiencies of semileptonic W pair decay at the ILC}
+\subtitle{FLC group presentation}
+\author[Matthew Koster]{Matthew Koster\inst{1,2} \\Supervisor: Jakob Beyer \inst{1,3}}% \inst{1,2} \and author2 \inst{2}}
+\institute[shortinst]{\inst{1} DESY Hamburg \and %
+                      \inst{2} University of Cambridge \and %
+                      \inst{3} Universit\"at Hamburg}
+\date{September 2, 2019}
+
+\newcommand{\imagepath}{../Plots}
+\newcommand{\feynmanpath}{../FeynmanDiagrams}
+
+\begin{document}
+
+%WARNING: Needs to be compiled using lualatex (might work w/o, look at Feynman diagrams)
+
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+
+\makemytitlepage
+% TODO Something about GitHub & Confluence pages and IDR notes
+
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{W pair production \OrangeBF{and chiral structures}}
+
+    \begin{minipage}{0.49\textwidth}
+        \begin{itemize}
+            \setlength\itemsep{2em}
+            \item Chiral structure of weak interaction
+            \includegraphics[width=0.8\textwidth, center]{\imagepath/Chirality.png}
+            \item initial state ${e}_{L}^{-} {e}_{R}^{+}$
+        \end{itemize}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \input{\feynmanpath/WPairDecayZ.tex}
+        \bigskip
+        \centering
+        \input{\feynmanpath/WPairDecayNu.tex}
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Neutrino and ISR Corrections \OrangeBF{The hard collision}}
+
+    \begin{minipage}{0.49\textwidth}
+        \CyanBF{The final state}\\
+        \begin{itemize}\setlength\itemsep{1em}
+            \item \CyanBF{Visible 4-momenta} ${p}^{\mu} = ( E, {p}_{x}, {p}_{y}, {p}_{z} )$
+            \item \CyanBF{Neutrino 4-momenta} ${p}_{\nu}^{\mu} = (  {E}_{\nu}, {p}_{x, \nu}, {p}_{y, \nu}, {p}_{z, \nu} )$
+            \item \CyanBF{ISR Photon 4-momenta} ${p}_{\gamma}^{\mu} = ( {E}_{\gamma}, 0, 0, {p}_{\gamma} )$
+        \end{itemize}
+    \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \resizebox{\linewidth}{!}{%
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayZ_ISR.tex}
+        }
+        \\
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayNu_ISR.tex}
+    \end{minipage}
+
+\end{frame}
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Neutrino and ISR Corrections \OrangeBF{ISR energy}}
+
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        Energy conservation \\
+        + \\
+        momentum conservation\\
+        = \\
+        \CyanBF{ISR energy equation}
+        \begin{equation*}
+            {E}_{\gamma} = \frac{ {( \sqrt{s} - E )}^2 - {p}^{2} }{2 \sqrt{s} -2 E  \mp 2{p}_{z}}
+        \end{equation*}
+        \\ \hfill \\
+        $ \sqrt{s} = 500 $ GeV
+    \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \resizebox{\linewidth}{!}{%
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayZ_ISR.tex}
+        }
+        \\
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayNu_ISR.tex}
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Neutrino and ISR Corrections \OrangeBF{${E}_{\gamma} = 0$ solution}}
+
+    Only considering muon signal
+    \centering
+    \includegraphics[width=0.7\textwidth, top]{\imagepath/PhotonEnergy_2D.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Neutrino and ISR Corrections \OrangeBF{Reconstruction evaluation}}
+
+    Only considering muon signal
+    \centering
+    \includegraphics[width=0.7\textwidth, top]{\imagepath/Mass3.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Angle Extractions \OrangeBF{Angle definitions}}
+
+    \begin{minipage}{0.49\textwidth}
+        Angles ${\theta}_{W^{-}}, {\theta}_{l}^{*}, {\phi}_{l}^{*}$\\
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/AngleDiag.pdf}
+        \\
+        \footnotesize(Modified from Robert Karl 2019)
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \resizebox{\linewidth}{!}{%
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayZ.tex}
+        }
+        \bigskip
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayNu.tex}
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Angle Extractions \OrangeBF{Consistent with previous results}}
+
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/ThetaMin_cos.pdf}
+        \includegraphics[width=\textwidth]{\imagepath/R_ThetaMin_cos.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/ThetaLep_cos.pdf}
+        \includegraphics[width=\textwidth]{\imagepath/R_ThetaLep_cos.pdf}
+    \end{minipage}
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/PhiLep.pdf}
+        "it was verified that the ${\phi}_{l}^{*}$ angle distributions are completely flat and yield no information on the chiral structure."
+        \\~\\
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Angle Efficiencies \OrangeBF{Cut Flow}}
+
+    \centering
+    \includegraphics[width=0.9\textwidth, top]{\imagepath/Histflow3_new.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Angle Efficiencies \OrangeBF{Applying the Cuts}}
+
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/E_ThetaMin_cos_err.pdf}
+        \includegraphics[width=\textwidth]{\imagepath/ThetaMin_cos_cut.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/E_ThetaLep_cos_err.pdf}
+        \includegraphics[width=\textwidth]{\imagepath/ThetaLep_cos_cut.pdf}
+    \end{minipage}
+    \begin{minipage}{0.32\textwidth}
+        \includegraphics[width=\textwidth]{\imagepath/E_PhiLep_Err.pdf}
+        \includegraphics[width=\textwidth]{\imagepath/PhiLep_cut.pdf}
+    \end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Angle Efficiencies \OrangeBF{${E}_{\gamma} < 1$ GeV}}
+
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/P_E_ThetaMin_cos_err_Both.pdf}
+    \end{minipage}
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/P_E_ThetaLep_cos_err_Both.pdf}
+    \end{minipage}
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/P_E_PhiLep_err_Both.pdf}
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\appendix
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Cut Flow table}}
+
+    \begin{table}[!]
+    \centering
+    \resizebox{0.8\textwidth}{!}{%
+        \begin{tabular}{|l|l|l|l|l|l|} \hline
+            Order & Cut description & \multicolumn{4}{c|}{Efficiency [\%]} \\ \cline{3-6}
+            & & \multicolumn{3}{c|}{My Results} & Ivan's Results \\  \cline{3-5}
+            & & n = 2129 & \multicolumn{2}{c|}{n = 99419} & n = 107233 \\ \cline{4-5}
+            & & & no cheat & cheat & \\ \hline \hline
+            0 & muon signal & 100.00 & 100.00 & 100.00 & 100.00 \\ \hline
+            1 & track multiplicity ${n}_{tracks} \ge 10$ & 97.13 & 97.01 & 96.23 & 99.996 \\ \hline
+            2 & center of mass energy $\sqrt{s} > 100$ GeV & 92.29 & 91.69 & 84.35 & 97.96 \\ \hline
+            3 & total transverse momentum ${P}_{T} > 5$ GeV & 91.16 & 90.47 & 83.28 & 96.69 \\ \hline
+            4 & total energy ${E}_{SUM} < 500$ GeV & 89.66 & 89.28 & 82.70 & 95.36 \\ \hline
+            5 & $\ln{({y}_{+})} \in [-12, -3]$ (*) & 88.69 & 88.08 & 82.47 & 95.01 \\ \hline
+            6 & 1 lepton found (*) & 80.65 & 80.77 & 81.50 & 78.75 \\ \hline
+            7 & pre ISR correction ${m}_{W}^{lep} \in [20, 250]$ GeV &  78.23 & 77.94 & 77.84 & 76.61 \\ \hline
+            8 & tau discrimination &  76.05 & 75.60 & 75.73 & 74.07 \\ \hline
+            9 & charged lepton (*) & 76.05 & 75.60 & 75.73 & 73.51 \\ \hline
+            10 & isolation variable ${\Delta\Omega}_{iso} > 0.5$ & 76.01 & 75.58 & 75.72 & 73.42 \\ \hline
+            11 & post ISR correction ${m}_{W}^{lep} \in [40, 120]$ GeV & 72.90 & 72.77 & 72.33 & 70.13 \\ \hline
+            12 & post ISR correction ${m}_{W}^{had} \in [40, 120]$ GeV & 63.21 & 62.92 & 70.52 & 66.93 \\ \hline
+            13 & $\cos{{\theta}_{W}} > -0.95$ & 63.02 & 62.65 & 70.21 & 66.78 \\ \hline
+        \end{tabular}
+    }
+    \end{table}
+
+    \end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Cut definitions}}
+
+    \begin{itemize}
+        \item $\Delta{\Omega}_{iso}$ defined as,
+            \begin{align}
+                 ({\phi}_{lep} - {\phi}_{had}) < \pi \to \Delta{\Omega}_{iso} &= \sqrt{{({\theta}_{lep} - {\theta}_{had})}^{2}+{({\phi}_{lep} - {\phi}_{had})}^{2}} \\
+                 ({\phi}_{lep} - {\phi}_{had}) \ge \pi \to \Delta{\Omega}_{iso} &= \sqrt{{({\theta}_{lep} - {\theta}_{had})}^{2} + {(2\pi - |{\phi}_{lep} - {\phi}_{had} |)}^{2}} \, .
+            \end{align}
+        \item ${\tau}_{discr}$ defined by
+            \begin{align}
+                {\tau}_{discr} = {(\frac{2{E}_{lep}}{\sqrt{s}})}^{2} + {(\frac{{m}_{W}^{lep}}{{m}_{W}^{true}})}^{2}
+            \end{align}
+    \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Number of Isolated leptons found}}
+
+    \includegraphics[width=0.9\textwidth]{\imagepath/IsolepsFound.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Logarithmic mass plots}}
+
+    \includegraphics[width=0.49\textwidth]{\imagepath/Mass3_log.pdf}
+    \includegraphics[width=0.49\textwidth]{\imagepath/Mass_log.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{MC ISR invariant mass}}
+
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/MCPhotonMass.pdf}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/MCPhotonMass_log.pdf}
+    \end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Negative Energy}}
+
+    \begin{minipage}{0.49\textwidth}
+        \begin{equation*}
+          {E}_{\gamma} = \frac{ {(500 - E)}^2 - {p}^{2}}{1000 -2 E  \mp 2{p}_{z}}
+        \end{equation*}
+        \begin{itemize}
+        \item ${E}_{\gamma} < 0$ in \sim 20\% of events
+        \item $m_{inv}^{2} < 0$
+        \end{itemize}
+    \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \resizebox{0.95\linewidth}{!}{%
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayZ_ISR.tex}
+        }
+        \\
+        \centering
+        \input{\feynmanpath/SemileptonicWPairDecayNu_ISR.tex}
+    \end{minipage}
+
+\end{frame}
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Lortenz boost}}
+
+     \begin{minipage}{0.49\textwidth}
+         \begin{itemize}
+             \item The ${e}^{-}{e}^{+}$ collision is \CyanBF{not in the center of mass frame}
+             \begin{equation}
+                 {p}^{\mu} = ( 500 \sin{(\frac{0.014}{2})}, 0, 0, 500)\, GeV.
+             \end{equation}
+        \end{itemize}
+     \end{minipage}\hfill
+     \begin{minipage}{0.49\textwidth}
+         \includegraphics[width=\textwidth]{\imagepath/Boost.pdf}
+     \end{minipage}
+
+\end{frame}
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Beam background cheating}}
+
+    \begin{itemize}
+        \item Try \CyanBF{cheat beam background} using TrueJet
+    \end{itemize}
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/Jet.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/Lep.pdf}
+    \end{minipage}
+
+\end{frame}
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{ISR invarient mass}}
+
+    \begin{itemize}
+        \item Invarient mass of the neutrino and ISR photon is nolonger assumed zero.
+    \end{itemize}
+    \CyanBF{Full energy equation}
+    \begin{equation}
+        {E}_{\gamma}    = \frac{{\lambda}(500 - E)  \pm {p}_{z}\sqrt{ {\lambda}^{2} - [{(500 - E)}^{2} -{p}_{z}^{2}]{m}_{\gamma}^{2}}}{{(500 - E)}^{2} -   {p}_{z}^{2}}
+    \end{equation}
+    Where for convenience I have defined \CyanBF{lambda},
+    \begin{equation}
+        {\lambda} = \frac{1}{2}[{(500 - E)}^2 - {p}^{2} + {m}_{\gamma}^{2} - {m}_{\nu}^{2}] \, .
+    \end{equation}
+
+\end{frame}
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{ISR invarient mass}}
+    \begin{itemize}
+        \item ${m}_{\nu} = 0$ and ${m}_{\gamma}$ from MC
+    \end{itemize}
+    \centering
+    \includegraphics[width=0.6\textwidth]{\imagepath/Mass.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{Cut Flow}}
+
+    \centering
+    \includegraphics[width=0.6\textwidth]{\imagepath/P_HistFlow3_All.pdf}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{New ISR Energy Plots}}
+
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/PhotonEnergy_2D_new.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{\imagepath/PhotonEnergy_2D_new_full.pdf}
+    \end{minipage}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}\frametitle{Back Up Slides \OrangeBF{1 lepton found in 1st cut}}
+
+    \centering
+    \includegraphics[width=0.7\textwidth]{\imagepath/Histflow3_isolep.pdf}
+
+    \end{frame}
+
+% ----------------------------------------------------------------------------
+
+\end{document}
