@@ -1,6 +1,6 @@
 from ROOT import *
 
-f = TFile("../high_stat/extraction_long.root")
+f = TFile("../high_stat/root/extraction_long.root")
 t = f.Get("ObservablesTree")
 nEntries = t.GetEntries()
 
@@ -57,11 +57,38 @@ s1.Add(hist1)
 s1.Add(hist2)
 s1.Draw("hist nostack")
 
+box1 = TPaveText(0.2, 0.7, 0.4, 0.85, "blNDC")
+box1.SetFillColor(0)
+box1.SetTextAlign(12)
+box1.SetBorderSize(1)
+box1.SetLineColor(kRed)
+myTextEntry= box1.AddText("80.95 #pm 0.06")
+box1.Draw()
+
+box2 = TPaveText(0.2, 0.5, 0.4, 0.65, "blNDC")
+box1.SetFillColor(0)
+box2.SetTextAlign(12)
+box2.SetBorderSize(1)
+box2.SetLineColor(kBlue)
+myTextEntry= box2.AddText("80.92 #pm 0.06")
+box2.Draw()
+
+box3 = TPaveText(0.2, 0.3, 0.4, 0.45, "blNDC")
+box3.SetFillColor(0)
+box3.SetTextAlign(12)
+box3.SetBorderSize(1)
+box3.SetLineColor(kGreen+1)
+myTextEntry= box3.AddText("88.02 #pm 0.10")
+box3.Draw()
+
 legend = TLegend(0.67, 0.7, 0.89, 0.91)
 legend.SetHeader("e_{L}^{-} e_{R}^{+}", "C")
 legend.AddEntry(hist, "E_{ISR} = 0", "l")
 legend.AddEntry(hist1, "E_{ISR} from formula", "l")
 legend.AddEntry(hist2, "E_{ISR} with both", "l")
+
 legend.Draw()
 
+print(hist.GetMean(), hist1.GetMean(), hist2.GetMean() )
+print(hist.GetMeanError(), hist1.GetMeanError(), hist2.GetMeanError() )
 #c1.Print("../checks/plots/pdf/Mass3.pdf")

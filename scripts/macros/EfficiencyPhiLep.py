@@ -5,17 +5,17 @@ t = f.Get("ObservablesTree")
 
 nEntries = t.GetEntries()
 
-hist = TH1F("hist", ";#phi*_{l} [rad]; a.u.", 180, -3.2, 3.2 )
+hist = TH1F("hist", ";#phi*_{l} [rad]; a.u.", 90, -3.2, 3.2 )
 hist.SetLineColor(kBlack)
 hist.SetLineWidth(3)
-hist1 = TH1F("hist1", "; #phi*_{l} [rad]; a.u.", 180, -3.2, 3.2)
+hist1 = TH1F("hist1", "; #phi*_{l} [rad]; a.u.", 90, -3.2, 3.2)
 hist1.SetLineColor(kBlack)
 hist1.SetLineWidth(3)
 
-hist_P = TH1F("hist_P", ";#phi*_{l} [rad]; a.u.", 180, -3.2, 3.2 )
+hist_P = TH1F("hist_P", ";#phi*_{l} [rad]; a.u.", 90, -3.2, 3.2 )
 hist_P.SetLineColor(kRed)
 hist_P.SetLineWidth(3)
-hist_P1 = TH1F("hist_P1", "; #phi*_{l} [rad]; a.u.", 180, -3.2, 3.2)
+hist_P1 = TH1F("hist_P1", "; #phi*_{l} [rad]; a.u.", 90, -3.2, 3.2)
 hist_P1.SetLineColor(kRed)
 hist_P1.SetLineWidth(3)
 
@@ -33,7 +33,7 @@ def applycut(tree):
        tree.m_recoEnergy < 500 and \
        tree.m_taudiscr > 1 and \
        tree.m_omegaiso > 0.5 and \
-       (-12 <= t.m_logyplus <= -3) and \
+       (-12 <= tree.m_logyplus <= -3) and \
        (20 <= tree.m_w_lepMass_1 <= 250) and \
        (40 <= tree.m_w_lepMass <= 120) and \
        (40 <= tree.m_w_jetMass <= 120) and \
@@ -63,17 +63,23 @@ hist_error_P = hist_P.Clone()
 hist_error_P.SetFillColorAlpha(kRed, 0.3)
 hist_error_P.SetMarkerColorAlpha(kRed, 0.3)
 
+line = TLine(-3.2, 60, 3.2, 60)
+line.SetLineWidth(3)
+line.SetLineColor(kGreen+1)
+
 gStyle.SetErrorX(0.5)
 s1.Add(hist_error, "E2")
 s1.Add(hist, "hist")
-s1.Add(hist_error_P, "E2")
-s1.Add(hist_P, "hist")
+#s1.Add(hist_error_P, "E2")
+#s1.Add(hist_P, "hist")
 s1.Draw("nostack")
+line.Draw()
 
-legend = TLegend(0.67, 0.2, 0.89, 0.51)
-legend.SetHeader("e_{L}^{-} e_{R}^{+}, binomial errors", "C")
-legend.AddEntry(hist, "All ISR Energies", "l C")
-legend.AddEntry(hist_P, "E^{MC}_{#gamma} < 1", "l C")
+legend = TLegend(0.5, 0.2, 0.89, 0.7)
+legend.SetHeader("#splitline{       e_{L}^{-} e_{R}^{+}}{binomial errors}", "C")
+legend.AddEntry(hist, "My Efficiency", "l")
+#legend.AddEntry(hist_P, "E^{MC}_{#gamma} < 1", "l")
+legend.AddEntry(line, "Current Efficiency", "l")
 
 legend.Draw()
 

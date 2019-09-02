@@ -6,15 +6,12 @@ t = f.Get("ObservablesTree")
 
 nEntries = t.GetEntries()
 
-hist = TH1F("hist", ";cos( #theta_{W^{-}} [rad] ); a.u.", 50, -1, 1 )
+hist = TH1F("hist", ";cos( #theta_{W^{-}} [rad] ); a.u.", 50, 0, 3.2 )
 hist.SetLineColor(kBlack)
 hist.SetLineWidth(3)
 hist1 = TH1F("hist1", "; cos( #theta_{W^{lep}} [rad] ); a.u.", 50, -1, 1)
 hist1.SetLineColor(kBlack)
 hist1.SetLineWidth(3)
-hist2 = TH1F("hist2", "; #phi_{W^{lep}} [rad]; a.u.", 80, -3.2, 3.2)
-hist2.SetLineColor(kBlack)
-hist2.SetLineWidth(3)
 
 s = THStack("s1", "; cos( #theta_{W^{-}} [rad]); a.u.")
 s1 = THStack("s1", "; cos( #theta*_{l} [rad]); a.u.")
@@ -43,13 +40,11 @@ def applycut(tree):
 
 for i in range(0,nEntries):
   t.GetEntry(i)
-  hist.Fill(math.cos(t.m_extractThetaMinus), applycut(t) )
-  hist1.Fill(math.cos(t.m_extractThetaLepton), applycut(t) )
-  hist2.Fill(t.m_extractPhiLepton, applycut(t) )
+  hist.Fill(t.m_extractThetaLepton)
+  hist1.Fill( math.cos(t.m_extractThetaLepton) )
 
 hist.Scale(1 / hist.Integral() )
 hist1.Scale(1 / hist1.Integral() )
-hist2.Scale(1 / hist2.Integral() )
 
 c = TCanvas("c", "Test Stacked Histograms", 1000, 1000)
 s.Add(hist)
@@ -58,9 +53,5 @@ s.Draw("hist nostack")
 c1 = TCanvas("c1", "Test Stacked Histograms", 1000, 1000)
 s1.Add(hist1)
 s1.Draw("hist nostack")
-
-c2 = TCanvas("c2", "Test Stacked Histograms", 1000, 1000)
-s2.Add(hist2)
-s2.Draw("hist nostack")
 
 #c1.Print("../plots/W_mass_full_MC_mass.root")

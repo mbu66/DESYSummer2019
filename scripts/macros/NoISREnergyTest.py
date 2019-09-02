@@ -5,10 +5,20 @@ f = TFile("../high_stat/root/extraction_long.root")
 t = f.Get("ObservablesTree")
 nEntries = t.GetEntries()
 
-hist = TH1F("hist", "; E_{mc}; E_{reco}", 800, -2, 5)
-hist1 = TH1F("hist1", "; E_{mc}; E_{reco}", 800, -2, 5)
+
+hist = TH1F("hist", ";Cutflow ;Efficiency [%]", 200, -100, 100)
+hist.SetLineWidth(3)
+hist.SetLineColor(kRed)
+hist1 = TH1F("hist1", ";Cutflow ;Efficiency [%]", 200, -100, 100)
+hist1.SetLineColor(kBlue)
+hist1.SetLineWidth(3)
+hist2 = TH1F("hist2", ";Cutflow ;Efficiency [%]", 200, -100, 100)
+hist2.SetLineColor(kGreen+1)
+hist2.SetLineWidth(3)
 
 c1 = TCanvas("c1", "Test Stacked Histograms", 1000, 1000)
+c1.SetLogy()
+s1 = THStack("s1", "; E_{#gamma}^{Reco} - E_{#gamma}^{MC} [GeV]; a.u.")
 
 def applycut():
     makesCut = False
@@ -33,16 +43,27 @@ def applycut():
 
 for i in range(0,nEntries):
   t.GetEntry(i)
-  if t.m_mcPhotonEnergy != 0 and t.m_recoPhotonEnergy !=0:
-      hist1.Fill( (t.m_recoPhotonEnergy - t.m_mcPhotonEnergy) / t.m_mcPhotonEnergy, applycut() )
-#  if t.m_mcPhotonEnergy != 0:
-#      hist1.Fill( (t.m_mcPhotonEnergy - t.m_photonenergyA) / t.m_mcPhotonEnergy, applycut() and t.m_recoPhotonEnergyChosen2 == 1 and t.m_recoPhotonEnergyChosen == 3)
-#      hist1.Fill( (t.m_mcPhotonEnergy - t.m_photonenergyB) / t.m_mcPhotonEnergy, applycut() and t.m_recoPhotonEnergyChosen2 == 2 and t.m_recoPhotonEnergyChosen == 3)
 
-hist1.Draw("hist")
+  hist.Fill( (t.m_recoPhotonEnergy - t.m_mcPhotonEnergy) , applycut() )
+  hist1.Fill( (t.m_recoPhotonEnergyA - t.m_mcPhotonEnergy), applycut() and t.m_recoPhotonEnergyChosen2 == 1)
+  hist1.Fill( (t.m_recoPhotonEnergyB - t.m_mcPhotonEnergy), applycut() and t.m_recoPhotonEnergyChosen2 == 2)
+  hist2.Fill( (0.0 - t.m_mcPhotonEnergy) , applycut() )
+
+hist.Scale(1 / hist.Integral())
+hist1.Scale(1 / hist1.Integral())
+hist2.Scale(1 / hist2.Integral())
+
+s1.Add(hist2)
+s1.Add(hist1)
+s1.Add(hist)
+s1.Draw("hist nostack")
 
 legend = TLegend(0.67, 0.7, 0.89, 0.91)
 legend.SetHeader("e_{L}^{-} e_{R}^{+}", "C")
+legend.AddEntry(hist2, "E_{ISR} = 0", "l")
+legend.AddEntry(hist1, "E_{ISR} from formula", "l")
+legend.AddEntry(hist, "E_{ISR} with both", "l")
 legend.Draw()
 
-#c1.Print("../checks/plots/check_photon.root")
+print(hist1.GetMean())
+#print(hist.GetMean())

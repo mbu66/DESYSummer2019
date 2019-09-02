@@ -2,7 +2,7 @@ from ROOT import *
 
 f = TFile("../high_stat/root/extraction_long.root")
 t = f.Get("ObservablesTree")
-g = TFile("../extraction_long_cheat.root")
+g = TFile("../high_stat/root/extraction_long_cheat.root")
 r = g.Get("ObservablesTree")
 
 nEntries = t.GetEntries()
@@ -20,7 +20,7 @@ def hist_flow(my_flow, _tree):
         _tree.GetEntry(i)
         if abs(_tree.m_mcLeptonFlavour) == 13:
             my_flow[0] += 1
-            if _tree.m_trackmultiplicity >= 9:
+            if _tree.m_trackmultiplicity >= 9 and _tree.m_isolepnumber == 1:
                 my_flow[1] +=1
                 if _tree.m_recoMass > 100:
                     my_flow[2] += 1
@@ -49,9 +49,9 @@ def hist_flow(my_flow, _tree):
 def hist_flow_P(my_flow, _tree):
     for i in range(0,nEntries):
         _tree.GetEntry(i)
-        if abs(_tree.m_mcLeptonFlavour) == 13 and _tree.m_mcPhotonEnergy < 1:
+        if abs(_tree.m_mcLeptonFlavour) == 13 and _tree.m_mcPhotonEnergy < 1 :
             my_flow[0] += 1
-            if _tree.m_trackmultiplicity >= 9:
+            if _tree.m_trackmultiplicity >= 9 and _tree.m_isolepnumber == 1:
                 my_flow[1] +=1
                 if _tree.m_recoMass > 100:
                     my_flow[2] += 1
@@ -140,16 +140,16 @@ c1.SetGridx()
 hist1.GetYaxis().SetRangeUser(0, 110)
 hist1.Draw("hist")
 hist2.Draw("hist same")
-hist_P2.Draw("hist same")
-hist_P.Draw("hist same")
+#hist_P2.Draw("hist same")
+#hist_P.Draw("hist same")
 hist.Draw("hist same")
 
 legend = TLegend(0.67, 0.2, 0.89, 0.51)
 legend.SetHeader("e_{L}^{-} e_{R}^{+}", "C")
 legend.AddEntry(hist, "My Results", "l C")
-legend.AddEntry(hist_P, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
+#legend.AddEntry(hist_P, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
 legend.AddEntry(hist2, "Cheated Overlay", "l C")
-legend.AddEntry(hist_P2, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
+#legend.AddEntry(hist_P2, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
 legend.AddEntry(hist1, "Ivan's Results", "l C")
 
 legend.Draw()
