@@ -1,6 +1,7 @@
 /build/
 /scripts/checks/
-/scripts/high_stat/
+/scripts/high_stat/root/
+/scripts/high_stat/pdf/
 /scripts/macros/old/
 /scripts/plots
 /scripts/root_files/
