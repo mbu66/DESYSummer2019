@@ -1,6 +1,8 @@
-
+/**
+Write the root file containing the signal and error TVectors from the angle efficiency dependance analysis
+TODO: look at binomial errors (line 80)
+**/
 #include <vector>
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1F.h"
@@ -9,7 +11,7 @@
 void write(){
 
   // Read input file
-  TFile *f = TFile::Open("../high_stat/root/extraction_long.root");
+  TFile *f = TFile::Open("../root_files/extraction_long.root");
   TTree *t = (TTree*)f->Get("ObservablesTree");
 
   //Initialise variables
@@ -57,7 +59,6 @@ void write(){
 
   //Fill histograms
   int nEntries = t->GetEntries();
-
   for(int i=0; i < nEntries; i++){
     t->GetEntry(i);
 
@@ -74,14 +75,12 @@ void write(){
 
   //Evaluate efficiency
   hist0->Divide(hist0, hist1, 1.0, 1.0, "B");
-  //hist0->Scale(100);
-
-  //Fill std vectors
 
   //-------------------------------------------------------//
   // *** DIVIDE IS RETURNING ERRORS GREATER THAN 100% ***  //
   //-------------------------------------------------------//
 
+  //Fill std vectors
   for(int i=0; i < 20; i++){
     for(int j=0; j < 10; j++){
       for(int k=0; k < 10; k++){

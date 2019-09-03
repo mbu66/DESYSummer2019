@@ -1,19 +1,28 @@
+# Plot cut flow histogram for whole signal, Ivans results, cheated
+# and E_ISR < 1 GeV, with binomal errors.
+
 from ROOT import *
 
-f = TFile("../high_stat/root/extraction_long.root")
+# Load in root trees
+f = TFile("../root_files/extraction_long.root")
 t = f.Get("ObservablesTree")
-g = TFile("../high_stat/root/extraction_long_cheat.root")
+g = TFile("../root_files/extraction_long_cheat.root")
 r = g.Get("ObservablesTree")
 
-nEntries = t.GetEntries()
-
+# Initialise cutflow vectors
 flow = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 flow_cheat = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 flow_P = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 flow_cheat_P = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 
+# Construct bin labels vector
 binlabels = ["muon","n_{tracks}","#sqrt{s}","P_{T}","E_{SUM}","ln(y_{+})", "lepton","m_{W}^{lep} (pre ISR)", "#tau_{discr}", "Q_{lepton}", "\Delta\Omega_{iso}", "m_{W}^{lep}","m_{W}^{had}","cos(#theta_{W})"]
+
+# Construct Ivans results vector
 ivan = [107233.0, 107229.0, 105050.0, 103681.0, 102259.0, 101882.0, 84443.0, 82149.0, 79423.0, 78830.0, 78730.0, 75204.0, 71776.0, 71611.0]
+
+# Define efficiency cuts for whole signal and E_ISR < 1GeV
+nEntries = t.GetEntries()
 
 def hist_flow(my_flow, _tree):
     for i in range(0,nEntries):
@@ -78,14 +87,17 @@ def hist_flow_P(my_flow, _tree):
                                                             if _tree.m_cosThetaW > -0.95:
                                                                 my_flow[13] += 1
 
+# Fill cut flow vectors
 hist_flow(flow, t)
 hist_flow(flow_cheat, r)
 
 hist_flow_P(flow_P, t)
 hist_flow_P(flow_cheat_P, r)
 
+# Construct canvas
 c1 = TCanvas("c1","c1",800,800)
 
+# Construct and format histograms
 hist = TH1F("hist", ";Cutflow ;Efficiency [%]", 14, 0, 14)
 hist.SetLineWidth(3)
 hist1 = TH1F("hist1", ";Cutflow ;Efficiency [%]", 14, 0, 14)
@@ -103,6 +115,7 @@ hist_P2.SetLineColor(kGreen+1)
 hist_P2.SetLineWidth(3)
 hist_P2.SetLineStyle(2)
 
+# Obtian ititial values for scaling
 scale = flow[0]
 scale1 = ivan[0]
 scale2 = flow_cheat[0]
@@ -110,46 +123,46 @@ scale2 = flow_cheat[0]
 scale_P = flow_P[0]
 scale_P2 = flow_cheat_P[0]
 
-print(scale1)
-print(scale)
-print(scale2)
-print(scale_P)
-print(scale_P2)
-
+# Divide by initial value to obtain efficiency and fill histograms, labelling axis
 for i in range(0, 14):
     flow[i] = 100 * flow[i] / scale
     ivan[i] = 100 * ivan[i] / scale1
     flow_cheat[i] = 100 * flow_cheat[i] / scale2
     flow_P[i] = 100 * flow_P[i] / scale_P
     flow_cheat_P[i] = 100 * flow_cheat_P[i] / scale_P2
+
     hist.Fill(i, flow[i])
     hist1.Fill(i, ivan[i])
     hist2.Fill(i, flow_cheat[i])
-    hist1.GetXaxis().SetBinLabel(i+1, binlabels[i])
-    hist1.GetXaxis().ChangeLabel(i+1, 0.8)
     hist_P.Fill(i, flow_P[i])
     hist_P2.Fill(i, flow_cheat_P[i])
-    print(flow[i], ivan[i], flow_cheat[i], flow_P[i],flow_cheat_P[i])
 
+    hist1.GetXaxis().SetBinLabel(i+1, binlabels[i])
+    hist1.GetXaxis().ChangeLabel(i+1, 0.8)
 
+    #print(flow[i], ivan[i], flow_cheat[i], flow_P[i],flow_cheat_P[i])
+
+# Format axes
 hist1.GetXaxis().SetLabelOffset(0.008)
 hist1.GetXaxis().SetLabelSize(0.03)
+hist1.GetYaxis().SetRangeUser(0, 110)
 
+# Add vertical grid
 c1.SetGridx()
 
-hist1.GetYaxis().SetRangeUser(0, 110)
+# Draw histogram
 hist1.Draw("hist")
 hist2.Draw("hist same")
-#hist_P2.Draw("hist same")
-#hist_P.Draw("hist same")
+hist_P2.Draw("hist same")
+hist_P.Draw("hist same")
 hist.Draw("hist same")
 
+# Add legend entries and draw
 legend = TLegend(0.67, 0.2, 0.89, 0.51)
 legend.SetHeader("e_{L}^{-} e_{R}^{+}", "C")
 legend.AddEntry(hist, "My Results", "l C")
-#legend.AddEntry(hist_P, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
+legend.AddEntry(hist_P, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
 legend.AddEntry(hist2, "Cheated Overlay", "l C")
-#legend.AddEntry(hist_P2, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
+legend.AddEntry(hist_P2, "#rightarrow E^{MC}_{#gamma} < 1", "l C")
 legend.AddEntry(hist1, "Ivan's Results", "l C")
-
 legend.Draw()

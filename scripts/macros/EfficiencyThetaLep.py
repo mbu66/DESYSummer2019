@@ -1,11 +1,14 @@
+# Plot histogram of thetaLep dependance of efficiency, for whole signal
+# and E_ISR < 1 GeV, with binomal errors.
+
 from ROOT import *
 import math
 
-f = TFile("../high_stat/root/extraction_long.root")
+# Load in root tree
+f = TFile("../root_files/extraction_long.root")
 t = f.Get("ObservablesTree")
 
-nEntries = t.GetEntries()
-
+# Construct and format histograms
 hist = TH1F("hist", ";#theta*_{l} [rad]; a.u.", 50, -1, 1 )
 hist.SetLineColor(kBlack)
 hist.SetLineWidth(3)
@@ -20,9 +23,11 @@ hist_P1 = TH1F("hist_P1", "; #theta*_{l} [rad]; a.u.", 50, -1, 1)
 hist_P1.SetLineColor(kRed)
 hist_P1.SetLineWidth(3)
 
+# Construct canvas and stack
 c1 = TCanvas("c1", "Test Stacked Histograms", 1000, 1000)
 s1 = THStack("s1", "; cos( #theta*_{l} [rad] );  Efficiency [%]")
 
+# Define efficiency cut
 def applycut(tree):
     makesCut = False
     if(True and \
@@ -44,7 +49,8 @@ def applycut(tree):
        makesCut = True
     return makesCut
 
-
+# Fill histograms
+nEntries = t.GetEntries()
 for i in range(0,nEntries):
   t.GetEntry(i)
   hist.Fill( math.cos(t.m_extractThetaLepton), applycut(t))
@@ -52,6 +58,7 @@ for i in range(0,nEntries):
   hist_P.Fill( math.cos(t.m_extractThetaLepton), applycut(t) and t.m_mcPhotonEnergy < 1 )
   hist_P1.Fill( math.cos(t.m_extractThetaLepton), abs(t.m_mcLeptonFlavour) == 13 and t.m_mcPhotonEnergy < 1)
 
+# Divide histograms to get efficiency and binomial errors
 hist.Divide(hist, hist1, 1.0, 1.0, "B")
 hist.Scale(100)
 hist_P.Divide(hist_P, hist_P1, 1.0, 1.0, "B")
@@ -65,24 +72,25 @@ hist_error_P = hist_P.Clone()
 hist_error_P.SetFillColorAlpha(kRed, 0.3)
 hist_error_P.SetMarkerColorAlpha(kRed, 0.3)
 
+gStyle.SetErrorX(0.5)
+
+# Add current efficiency value
 line = TLine(-1, 60, 1, 60)
 line.SetLineWidth(3)
 line.SetLineColor(kGreen+1)
 
-gStyle.SetErrorX(0.5)
+# Add histograms to stack and draw
 s1.Add(hist_error, "E2")
 s1.Add(hist, "hist")
-#s1.Add(hist_error_P, "E2")
-#s1.Add(hist_P, "hist")
+s1.Add(hist_error_P, "E2")
+s1.Add(hist_P, "hist")
 s1.Draw("nostack")
 line.Draw()
 
+# Add legend entries and draw
 legend = TLegend(0.5, 0.2, 0.89, 0.65)
 legend.SetHeader("#splitline{       e_{L}^{-} e_{R}^{+}}{binomial errors}", "C")
 legend.AddEntry(hist, "My Efficiency", "l")
-#legend.AddEntry(hist_P, "E^{MC}_{#gamma} < 1", "l")
+legend.AddEntry(hist_P, "E^{MC}_{#gamma} < 1", "l")
 legend.AddEntry(line, "Current Efficiency", "l")
-
-
 legend.Draw()
-#c1.Print("../plots/W_mass_full_MC_mass.root")

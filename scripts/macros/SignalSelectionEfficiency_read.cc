@@ -1,6 +1,7 @@
-
+/**
+Read the root file containing the signal and error TVectors from the angle efficiency dependance analysis
+**/
 #include <vector>
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1F.h"
@@ -15,7 +16,7 @@ void read()
   TVectorT<double> *signal;
   TVectorT<double> *error;
 
-  //Extract and vill vectors
+  //Extract and fill vectors
   signal = (TVectorT<double>*)g->Get("signal");
   error = (TVectorT<double>*)g->Get("error");
 

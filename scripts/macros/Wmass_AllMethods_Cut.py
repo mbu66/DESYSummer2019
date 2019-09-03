@@ -1,9 +1,13 @@
+#Histogram showing the recnstructed leptonic W mass for all 3 reconstruction techniques
+# with cuts applied
+
 from ROOT import *
 
-f = TFile("../high_stat/extraction_long.root")
+# Load in root tree
+f = TFile("../root_files/extraction_long.root")
 t = f.Get("ObservablesTree")
-nEntries = t.GetEntries()
 
+# Construct and format histograms
 hist = TH1F("hist", "; M_{W_{lep}}[GeV]; a.u.", 200, 0,  200)
 hist.SetLineColor(kGreen+1)
 hist.SetLineWidth(3)
@@ -16,9 +20,11 @@ hist2.SetLineColor(kRed)
 hist2.SetLineWidth(3)
 
 
+# Construct canvas and stack
 c1 = TCanvas("c1", "Test Stacked Histograms", 1000, 1000)
 s1 = THStack("s1", "; M_{W_{lep}}[GeV]; a.u.")
 
+# Define efficiency cut
 def applycut(mass):
     makesCut = False
     if(True and \
@@ -40,22 +46,24 @@ def applycut(mass):
        makesCut = True
     return makesCut
 
+# Fill histograms
+nEntries = t.GetEntries()
 for i in range(0,nEntries):
   t.GetEntry(i)
   hist.Fill(t.m_w_lepMass_1, applycut(t.m_w_lepMass_1) )
   hist1.Fill(t.m_w_lepMass_2, applycut(t.m_w_lepMass_2) )
   hist2.Fill(t.m_w_lepMass, applycut(t.m_w_lepMass) )
 
+# Add histograms to stack and draw
 s1.Add(hist)
 s1.Add(hist1)
 s1.Add(hist2)
 s1.Draw("hist nostack")
 
+# Add legend entries and draw
 legend = TLegend(0.67, 0.7, 0.89, 0.91)
 legend.SetHeader("e_{L}^{-} e_{R}^{+} with cuts", "C")
 legend.AddEntry(hist, "E_{ISR} = 0", "l")
 legend.AddEntry(hist1, "E_{ISR} from formula", "l")
 legend.AddEntry(hist2, "E_{ISR} with both", "l")
 legend.Draw()
-print(nEntries)
-#c1.Print("../plots/W_lep_mass_cut.root")
