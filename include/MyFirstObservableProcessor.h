@@ -46,7 +46,6 @@ class MyFirstObservableProcessor : public Processor {
    // Additional class memeber functions for analysis.
    void setTTreeBranches();
    void setObservablesBranches( TTree* tree );
-
    void analyseMCParticles();
    void analyseReconstructed();
    void neutrinoCorrection( TLorentzVector _momentumVector );
@@ -61,10 +60,11 @@ class MyFirstObservableProcessor : public Processor {
    TLorentzVector analyseMCPhoton();
    TLorentzVector analyseMCParticle();
    TLorentzVector analyseMCNeutrino();
-   TLorentzVector analyseMCHadronic();
+   TLorentzVector analyseMCHadronicW();
    TLorentzVector analyseReconstructedVectors(std::string _CollectionName);
-   TLorentzVector analyseMCLeptonic();
+   TLorentzVector analyseMCLeptonicW();
    TLorentzVector analyseMCLepton();
+   TLorentzVector getBoostVector(TLorentzVector &to_be_boosted, TLorentzVector &_boost_system);
 
 
    // LCEvent
@@ -77,6 +77,7 @@ class MyFirstObservableProcessor : public Processor {
    std::string           m_jetsCollectionName {};
    std::string           m_isolatedLeptonsCollectionName {};
    std::string           m_TJJetRecoParticleFinderCollectionName {};
+
    // Root file
    TFile*                m_rootfile {};
    std::string           m_rootfilename {};
@@ -85,8 +86,8 @@ class MyFirstObservableProcessor : public Processor {
    // Mass of W boson (GeV) from PDG Live 30/07/2019
    double                m_w_true = 80.379;
    double                m_w_true_err = 0.012;
-   // Extracted scalars (not from TLorentzVector)
 
+   // Extracted scalars (not from TLorentzVector)
    int                   m_trackmultiplicity {};
    int                   m_isolepnumber {};
    int                   m_isolepflavour {};
@@ -105,9 +106,13 @@ class MyFirstObservableProcessor : public Processor {
    double                m_photonEnergy {};
    double                m_mcLeptonFlavour {};
    double                m_lambda {};
+   double                m_extractThetaMinus {};
+   double                m_extractRhoLepton {};
+   double                m_extractThetaLepton {};
+   double                m_extractPhiLepton {};
 
    // Extracted variables (from TLorentzVector)
-   TLorentzVector        m_recomomentum {};   // (p_x, p_y, p_z, E)
+   TLorentzVector        m_recomomentum {};
    double                m_recomomentum_mass {};
    double                m_recomomentum_energy {};
    double                m_recomomentum_theta {};
@@ -132,11 +137,6 @@ class MyFirstObservableProcessor : public Processor {
    double                m_jetmomentumT {};
    double                m_jetmomentumZ {};
 
-   TLorentzVector        m_neutrinomomentumA {};
-   TLorentzVector        m_neutrinomomentumB {};
-   TLorentzVector        m_neutrinomomentumC {};
-
-
    TLorentzVector        m_leptonicmomentum {};
    double                m_leptonicmomentum_mass {};
    double                m_leptonicmomentum_energy {};
@@ -154,6 +154,19 @@ class MyFirstObservableProcessor : public Processor {
    TLorentzVector        m_leptonicmomentumB {};
    TLorentzVector        m_leptonicmomentumC {};
 
+   TLorentzVector        m_neutrinomomentumA {};
+   TLorentzVector        m_neutrinomomentumB {};
+   TLorentzVector        m_neutrinomomentumC {};
+
+   TLorentzVector        m_photonmomentumA {};
+   TLorentzVector        m_photonmomentumB {};
+   TLorentzVector        m_photonmomentum {};
+
+   TLorentzVector        m_mcLeptonMomentum {};
+
+   TLorentzVector        m_mcNeutrinoMomentum {};
+   double                m_mcNeutrinoMass {};
+
    TLorentzVector        m_mcPhotonMomentum {};
    double                m_mcPhotonEnergy {};
    double                m_mcPhotonTheta {};
@@ -165,51 +178,28 @@ class MyFirstObservableProcessor : public Processor {
    double                m_mcParticleEnergy {};
    double                m_mcParticleMass {};
 
-   TLorentzVector        m_mcLeptonicMomentum {};
-   double                m_mcLeptonicMomentumT {};
-   double                m_mcLeptonicMomentumZ {};
-   double                m_mcLeptonicMomentumEnergy {};
+   TLorentzVector        m_mcLeptonicWMomentum {};
+   double                m_mcLeptonicWMomentumT {};
+   double                m_mcLeptonicWMomentumZ {};
+   double                m_mcLeptonicWMomentumEnergy {};
 
-   TLorentzVector        m_mcHadronicMomentum {};
+   TLorentzVector        m_mcHadronicWMomentum {};
 
-   TLorentzVector        m_mcNeutrinoMomentum {};
-   double                m_mcNeutrinoMass {};
-
-   TLorentzVector        m_mcLeptonMomentum {};
-
-   //DEBUGGING
-   int                   num_neg_A = 0;
-   int                   num_neg_B = 0;
-   int                   num_neg_BOTH = 0;
-
-   // Lorentz boost
-  TLorentzVector getBoostVector(TLorentzVector &to_be_boosted, TLorentzVector &_boost_system);
-
-  TLorentzVector m_photonmomentumA {};
-  TLorentzVector m_photonmomentumB {};
-  TLorentzVector m_photonmomentum {};
-
-  TLorentzVector _boost_system_com {};
-  TLorentzVector _boost_system_com_inv {};
-
-  TLorentzVector _boost {};
-  TLorentzVector _boostIso {};
-  TLorentzVector _boostLepA {};
-  TLorentzVector _boostLepB {};
-  TLorentzVector _boostLepC {};
-  TLorentzVector _boostPhotonA {};
-  TLorentzVector _boostPhotonB {};
-
-  double         m_extractThetaMinus {};
-  double         m_extractRhoLepton {};
-  double         m_extractThetaLepton {};
-  double         m_extractPhiLepton {};
-
-
-  TLorentzVector _boost_system_minus {};
-  TLorentzVector _boost_system_leptonic {};
-  TLorentzVector _boost_minus {};
-  TLorentzVector _boost_lepton {};
+   // Lorentz boosted variables
+  TLorentzVector        _boost_system_com {};
+  TLorentzVector        _boost_system_com_inv {};
+  TLorentzVector        _boost {};
+  TLorentzVector        _boostIso {};
+  TLorentzVector        _boostJet {};
+  TLorentzVector        _boostLepA {};
+  TLorentzVector        _boostLepB {};
+  TLorentzVector        _boostLepC {};
+  TLorentzVector        _boostPhotonA {};
+  TLorentzVector        _boostPhotonB {};
+  TLorentzVector        _boost_system_minus {};
+  TLorentzVector        _boost_system_leptonic {};
+  TLorentzVector        _boost_minus {};
+  TLorentzVector        _boost_lepton {};
  };
 
 #endif
