@@ -74,18 +74,24 @@ void write(){
 
   //Evaluate efficiency
   hist0->Divide(hist0, hist1, 1.0, 1.0, "B");
+  //hist0->Scale(100);
 
   //Fill std vectors
+
+  //-------------------------------------------------------//
+  // *** DIVIDE IS RETURNING ERRORS GREATER THAN 100% ***  //
+  //-------------------------------------------------------//
+
   for(int i=0; i < 20; i++){
     for(int j=0; j < 10; j++){
       for(int k=0; k < 10; k++){
-      signal.push_back(hist0->GetBinContent(100*i + 10*j + 1*k));
-      if(hist0->GetBinContent(100*i + 10*j + 1*k) == 0){
+      signal.push_back(hist0->GetBinContent(i,j,k));
+      if(hist0->GetBinContent(i,j,k) == 0){
         error.push_back(1.0);
       }else{
-        error.push_back(hist0->GetBinError(100*i + 10*j + 1*k));
+        error.push_back(hist0->GetBinError(i,j,k));
       }
-      //std::cout << signal[100*i + 10*j + 1*k] << '\t' << error[100*i + 10*j + 1*k] <<'\n';
+      std::cout << signal[100*i + 10*j + 1*k] << '\t' << error[100*i + 10*j + 1*k] <<'\n';
       }
     }
   }
@@ -105,6 +111,6 @@ void write(){
 
 }
 
-void SignalSelectionEfficiency_temp() {
+void SignalSelectionEfficiency_write() {
   write();
 }

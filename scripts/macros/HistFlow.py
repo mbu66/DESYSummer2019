@@ -20,7 +20,7 @@ def hist_flow(my_flow, _tree):
         _tree.GetEntry(i)
         if abs(_tree.m_mcLeptonFlavour) == 13:
             my_flow[0] += 1
-            if _tree.m_trackmultiplicity >= 9 and _tree.m_isolepnumber == 1:
+            if _tree.m_trackmultiplicity >= 9:
                 my_flow[1] +=1
                 if _tree.m_recoMass > 100:
                     my_flow[2] += 1
@@ -49,9 +49,9 @@ def hist_flow(my_flow, _tree):
 def hist_flow_P(my_flow, _tree):
     for i in range(0,nEntries):
         _tree.GetEntry(i)
-        if abs(_tree.m_mcLeptonFlavour) == 13 and _tree.m_mcPhotonEnergy < 1 :
+        if abs(_tree.m_mcLeptonFlavour) == 13 and _tree.m_mcPhotonEnergy < 1:
             my_flow[0] += 1
-            if _tree.m_trackmultiplicity >= 9 and _tree.m_isolepnumber == 1:
+            if _tree.m_trackmultiplicity >= 9:
                 my_flow[1] +=1
                 if _tree.m_recoMass > 100:
                     my_flow[2] += 1
