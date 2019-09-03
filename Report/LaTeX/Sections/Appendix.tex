@@ -6,7 +6,7 @@
 \subsection{Steering file}
 \label{App:SteeringFile}
 
-The layout of my steering file:
+The layout of the steering file:
 
 \begin{itemize}
 	\item IsolatedLeptonTaggingProcessor
@@ -45,7 +45,7 @@ with LCIO input files:\\
 \texttt{$ILD\_l5\_o1\_v02/v02-00-01/rv02-00-01.sv02-00-01.mILD\_l5\_o1\_v02.E500-TDR\_ws.I250018.$}
 \texttt{$P4f\_ww\_sl.eL.pR.n0*.d\_dstm\_10318\_*.slcio$}.
 \\\\
-The only deviation from this format of steering file was when I cheated the beam background removal. Here I replaced the "FastJetProcessor (Beam Background Removal)" processor with a "TrueJet" processor with MCParticle input collection followed by a "TJJetRecoParticleFinder" processor which outputs a collection RecosFromHadronicJets. This RecosFromHadronicJets collection was then used as the input to the "FastJetProcessor (Jet Clustering)" processor.
+The only deviation from this format of steering file was when the beam background removal was cheated. Here the "FastJetProcessor (Beam Background Removal)" processor was replaced with a "TrueJet" processor with MCParticle input collection followed by a "TJJetRecoParticleFinder" processor which outputs a collection RecosFromHadronicJets. This RecosFromHadronicJets collection was then used as the input to the "FastJetProcessor (Jet Clustering)" processor.
 
 \begin{itemize}
 	\item IsolatedLeptonTaggingProcessor
