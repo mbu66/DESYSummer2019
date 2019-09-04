@@ -22,7 +22,7 @@ Reconstruction of the leptonically decaying W boson (${W}_{lep}$) required a bit
 \subsection{Neutrino and ISR Corrections}
 \subsubsection{The invisible system}
 \label{SUBSUBSEC:ISRImplementation}
-The leptonically decaying W boson was reconstructed by summing the 4-momenta of the extracted lepton and the neutrino, however, the neutrino does not leave a signal in the detector. In addition, there is some initial state radiation of photons (ISR) which are aligned enough to the beam pipe to not be  detected. This results in an 'invisible' system that is not at all detected by the detector, and, to obtain complete information about the W bosons, this invisible system had to be reconstructed.
+The leptonically decaying W boson was reconstructed by summing the 4-momenta of the extracted lepton and the neutrino, however, the neutrino does not leave a signal in the detector. In addition, there is some initial state radiation of photons (ISR) which are aligned enough to the beam pipe to not be detected. This results in an 'invisible' system that is not at all detected by the detector, and, to obtain complete information about the W bosons, this invisible system had to be reconstructed.
 \\\\
 The chosen method for reconstruction of the invisible system arises purely from conservation laws\footnote{ a full mathematical derivation is included in the appendix for completeness (Appendix.~\ref{App:Derivation})}. The reconstructed visible system was considered as being the hadronically decaying W boson plus the isolated lepton (${p}^{\mu} = ( E,  {p}_{x}, {p}_{y}, {p}_{z})$), and the invisible system as the accompanying neutrino and an ISR photon, travelling parallel to the beam. The total center of mass energy was assumed to be 500 GeV and the hard interation was assumed to take place in the center of mass frame. Conservation of momentum and energy then exactly defines the 4-momenta of the ISR photon and the neutrino. In the simulation there are two ISR photons emitted. This means that when combining the two photons into one 'photon', this 'photon' may have a non zero invariant mass. Furthermore, the ISR photon could be going in either direction with respect to the beam axis, resulting in two solutions.
 \begin{align}
@@ -52,23 +52,15 @@ A simplified form of this equation with ${m}_{\gamma} = {m}_{\nu} = 0$ is used i
 This is obviously not physical and will affect the solutions attained above. For example as ${p}_{\gamma}= \pm {E}_{\gamma}$, a negative energy will reverse the direction of the photon. This needs to be handled carefully in the code to avoid inconsistent solutions.
 \\\\
 It can be analytically shown that Equation.~\ref{EQ:Full} leads to Equation.~\ref{EQ:Simple} when simplified, there is however one subtlety when this is done computationally. The $\sqrt{ {\lambda}^{2}}$ will computationally evaluate as $|{\lambda}|$, so if $\lambda$ is negative it will in effect reverse the effect of the $\pm$ in Equation.~\ref{EQ:Full} and lead to the opposite solution of the simplified form. So it is clear that these negative $\lambda$'s may cause some issues if the contribution from the ${m}_{\gamma}$ in non-negligible. This was not explored further, because in Section.~\ref{SUBSUBSEC:ISRInvarientMass} it is shown that including the non-zero ${m}_{\gamma}$ contribution from the Monte Carlo has little effect on the solutions attained and so Equation.~\ref{EQ:Simple} is used with the $\pm$ swapped accordingly.
-
-%---------------------------------------------------------------------------------------------------------------------------------------------------------%---------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsubsection{Reconstructing the leptonically decaying W boson}
-\label{SUBSUBSEC:ISREvaluation}
-Using the method in Section.~\ref{SUBSUBSEC:ISRImplementation} the 4-momentum of the leptonically decaying W boson was reconstructed. As a test of the performance of this, the acuracy of the reconstructed invariant mass of this boson was evaluated. By exploring different several variations of this reconstruction the sensitivity of the ISR energy solution was tesed in the following analysis.
+\\\\
+From this, the 4-momentum of the leptonically decaying W boson was reconstructed. As a test of performance, the acuracy of the reconstructed invariant mass of this boson was evaluated. By exploring different several variations of this reconstruction the sensitivity of the ISR energy solution was tesed in the following analysis.
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Center of Mass frame}
 \label{SUBSUBSEC:CenterOfMassFrame}
 The $\eP\eM$ collision is incident at a non zero angle. Consequently the total system in detector frame has a non-zero 3-momentum $ {p}^{\mu} = ( 500 \sin{(\frac{0.014}{2})}, 0, 0 )$ GeV. In theory addition of a boost into the centre of mass frame should result in an improvement in the reconstruction, beause the assumption that the total energy is equal to the center of mass energy is only satisfied in this frame. In fact we see that is makes a considerable improvement to the mass peak (Figure.~\ref{SUBFIG:Boost}) and is kept in the following analysis.
 
-%---------------------------------------------------------------------------------------------------------------------------------------------------------
-\subsubsection{ISR invarient mass}
-\label{SUBSUBSEC:ISRInvarientMass}
-Another assumption that was tested was the non-zero invariant mass of the ISR photon. As two ISR photons are emitted, but only one photon is modelled in the reconstruction, this modelled photon need not satisfy this constraint. The true invariant mass was obtained from the generator level particles and inputed into Equation.~\ref{EQ:Full}, which is derive with this constraint relaxed. Again this is a 'cheat' as this information would not be available in a real detector. This addition had a negligible effect on the reconstructed W mass (see Figure.~\ref{SUBFIG:MassFig}), which could be due to the size of the photon mass indeed being negligible, even if non-zero.
-
-\begin{figure}
+\begin{figure}[!]
   \centering
   \begin{subfigure}[t]{0.45\textwidth}
     \centering
@@ -84,11 +76,16 @@ Another assumption that was tested was the non-zero invariant mass of the ISR ph
   \end{subfigure}
   \caption{
     The effect on the reconstructed invarient mass of the leptonically decaying W with different reconstruction methods.
-    The simulated $\eP\eM$ collision is not head on, but with a finite momentum in the x direction, \subfigref{SUBFIG:Boost} shows the effect of boosting into the ZMF before applying the reconstruction method.
-    \subfigref{SUBFIG:MassFig} shows the effect of inputting a non-zero invarient ISR photon mass, obtained from generator level information, into the reconstruction.
+    \subfigref{SUBFIG:MassFig} A lorentz boost into the center of mass frame is considered.
+    \subfigref{SUBFIG:MassFig} A non-zero invarient ISR photon mass, obtained from generator level information, is considered.
     }
   \label{FIG:BoostMass}
 \end{figure}
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{ISR invarient mass}
+\label{SUBSUBSEC:ISRInvarientMass}
+Another assumption that was tested was the non-zero invariant mass of the ISR photon. As two ISR photons are emitted, but only one photon is modelled in the reconstruction, this modelled photon need not satisfy this constraint. The true invariant mass was obtained from the generator level particles and inputed into Equation.~\ref{EQ:Full}, which is derive with this constraint relaxed. Again this is a 'cheat' as this information would not be available in a real detector. This addition had a negligible effect on the reconstructed W mass (see Figure.~\ref{SUBFIG:MassFig}), which could be due to the size of the photon mass indeed being negligible, even if non-zero.
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Beam Background Removal}
