@@ -3,23 +3,23 @@ Scripts generated during the DESY Summer Student Programme 2019, for analysis of
 include/ src/ and CMakelists required to build processor for analysis
 
 ## Report:
-'''LaTeX files used in the generation of the final report - report submitted 05/09/19'''
+```LaTeX files used in the generation of the final report - report submitted 05/09/19```
 
 ## Presentation:
-'''LaTeX files used in the generation of the final presentation - presented 02/09/19'''
+```LaTeX files used in the generation of the final presentation - presented 02/09/19```
 
 ## include:
-'''Contains .h files for processor'''
+```Contains .h files for processor```
 
 ## src:
-'''Contains .cc files for processor'''
+```Contains .cc files for processor```
 
 ## CMakelists:
-'''cmake file for building Marlin Package'''
+```cmake file for building Marlin Package```
 
 ## scripts:
-'''steering_files for running processor with Marlin'''
-'''.py and .cc scripts used to analyse .root file output of processor'''
+```steering_files for running processor with Marlin```
+```.py and .cc scripts used to analyse .root file output of processor```
 
 ### Tips and Tricks:
 - 'nohup ariane' allows you to close your terminal window
