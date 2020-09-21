@@ -8,7 +8,7 @@ include/ src/ and CMakelists required to build processor for analysis
 
 ## Presentation:
 ```LaTeX files used in the generation of the final presentation - presented 02/09/19``` \
-```pdf can be found under Presentation/Latex/Report.pdf```
+```pdf can be found under Presentation/Latex/2019_09_02_summer_report.pdf```
 
 ## include:
 ```Contains .h files for processor```
