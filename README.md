@@ -4,9 +4,11 @@ include/ src/ and CMakelists required to build processor for analysis
 
 ## Report:
 ```LaTeX files used in the generation of the final report - report submitted 05/09/19```
+```pdf can be found under Report/Latex/Report.pdf```
 
 ## Presentation:
 ```LaTeX files used in the generation of the final presentation - presented 02/09/19```
+```pdf can be found under Presentation/Latex/Report.pdf```
 
 ## include:
 ```Contains .h files for processor```
